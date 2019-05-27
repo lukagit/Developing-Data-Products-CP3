@@ -1,0 +1,83 @@
+---
+title: "mpgshiny shiny predictor"
+subtitle: "Luka Brdar JH specialization Course project"
+date: 27/05/2019
+autosize: true
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R Markdown
+
+This Shiny app is a predictor of mpg based on cylinder numbers(cyl) and horse power (hp) from mtcars dataset.
+It is needed to enter parameters on the left side, and on the right side there will be a prediction, and a plot of a linear regression.
+The project consists of two files: ui.R and server.R
+
+## ui.R file
+
+```{r, eval=FALSE, echo=TRUE}
+library(shiny)
+shinyUI(fluidPage(
+    titlePanel("Mpg prediction from mtcars dataset"),
+    sidebarLayout(
+        sidebarPanel(
+            h3(helpText("Choose values:")),
+            numericInput("hp", label = h4("hp"), step = 1, value = 145),
+            selectInput("cyl", label = h4("cyl"), 
+                        choices = list("unspecified" = "*", "4" = "4", "6" = "6", "8" = "8"))
+        ),
+        mainPanel(
+            h4("Predicted value of this diamond is:"),
+            h3(textOutput("result")),
+            h4(""),
+            h4("Regression results:"),
+            plotOutput("distPlot")
+        )
+    )
+```
+
+
+## server.R file
+
+```{r, eval=FALSE, echo=TRUE}
+library(shiny)
+library(ggplot2)
+library(dplyr)
+cars <- mtcars
+shinyServer(function(input, output) {
+    output$distPlot <- renderPlot({
+        # select diamonds depending of user input
+        cars <- filter(mtcars, grepl(input$cyl, cyl))
+        # build linear regression model
+        fit <- lm( mpg~hp, cars)
+        # predicts the price 
+        pred <- predict(fit, newdata = data.frame(hp = input$hp, cyl = input$cyl))
+        # Drow the plot using ggplot2
+        plot <- ggplot(data=cars, aes(x=hp, y = mpg))+
+            geom_point(aes(color = cyl), alpha = 0.3)+
+            geom_smooth(method = "lm")+
+            geom_vline(xintercept = input$hp, color = "green")+
+            geom_hline(yintercept = pred, color = "red")
+        plot
+    })
+    output$result <- renderText({
+        # renders the text for the prediction below the graph
+        cars <- filter(cars, grepl(input$cyl, cyl))
+        fit <- lm( mpg~hp, cars)
+        pred <- predict(fit, newdata = data.frame(hp = input$hp, cyl = input$cyl))
+        res <- paste(round(pred, digits = 2), "$")
+        res
+    })
+    
+})
+```
+
+
+
+## All the files can be found at
+
+- https://github.com/lukagit/Developing-Data-Products-CP3
+- http://rpubs.com/lukabrdar/
