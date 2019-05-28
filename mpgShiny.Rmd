@@ -1,5 +1,5 @@
 ---
-title: "mpgshiny shiny predictor"
+title: "MpG Shiny predictor"
 subtitle: "Luka Brdar JH specialization Course project"
 date: 27/05/2019
 autosize: true
@@ -16,7 +16,22 @@ This Shiny app is a predictor of mpg based on cylinder numbers(cyl) and horse po
 It is needed to enter parameters on the left side, and on the right side there will be a prediction, and a plot of a linear regression.
 The project consists of two files: ui.R and server.R
 
-## ui.R file
+## ui.R insight
+
+ui.R file consists of a sidebar part and main part.
+The side part consists of two parts, 
+- a numeric input part for the number of hp with a step of 1 (defaulted to 145 due to mean being around 146)
+- and an optional cyl part (by default unspecified, drop down list due to only 3 possible different values).
+
+On the right are the results.
+
+```{r, echo=TRUE}
+mean(mtcars$hp)
+unique(mtcars$cyl)
+```
+
+
+## ui.R file code
 
 ```{r, eval=FALSE, echo=TRUE}
 library(shiny)
@@ -38,6 +53,13 @@ shinyUI(fluidPage(
         )
     )
 ```
+
+
+## server.R insight
+
+The server part consists of two parts, the first part being the plot, and the second being the prediction.
+The plot has been done with ggplot2 (smoothed).
+The prediction part can be run both with and without cylinder number specified.
 
 
 ## server.R file

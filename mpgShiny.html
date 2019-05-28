@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>mpgshiny shiny predictor</title>
+  <title>MpG Shiny predictor</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,7 +19,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'mpgshiny shiny predictor',
+                title: 'MpG Shiny predictor',
                         subtitle: 'Luka Brdar JH specialization Course project',
                 useBuilds: true,
         usePrettify: true,
@@ -3116,7 +3116,21 @@ slide:not(.current) .plotly.html-widget{
 
 <p>This Shiny app is a predictor of mpg based on cylinder numbers(cyl) and horse power (hp) from mtcars dataset. It is needed to enter parameters on the left side, and on the right side there will be a prediction, and a plot of a linear regression. The project consists of two files: ui.R and server.R</p>
 
-</article></slide><slide class=""><hgroup><h2>ui.R file</h2></hgroup><article  id="ui.r-file">
+</article></slide><slide class=""><hgroup><h2>ui.R insight</h2></hgroup><article  id="ui.r-insight">
+
+<p>ui.R file consists of a sidebar part and main part. The side part consists of two parts, - a numeric input part for the number of hp with a step of 1 (defaulted to 145 due to mean being around 146) - and an optional cyl part (by default unspecified, drop down list due to only 3 possible different values).</p>
+
+<p>On the right are the results.</p>
+
+<pre class = 'prettyprint lang-r'>mean(mtcars$hp)</pre>
+
+<pre >## [1] 146.6875</pre>
+
+<pre class = 'prettyprint lang-r'>unique(mtcars$cyl)</pre>
+
+<pre >## [1] 6 4 8</pre>
+
+</article></slide><slide class=""><hgroup><h2>ui.R file code</h2></hgroup><article  id="ui.r-file-code">
 
 <pre class = 'prettyprint lang-r'>library(shiny)
 shinyUI(fluidPage(
@@ -3136,6 +3150,10 @@ shinyUI(fluidPage(
             plotOutput(&quot;distPlot&quot;)
         )
     )</pre>
+
+</article></slide><slide class=""><hgroup><h2>server.R insight</h2></hgroup><article  id="server.r-insight">
+
+<p>The server part consists of two parts, the first part being the plot, and the second being the prediction. The plot has been done with ggplot2 (smoothed). The prediction part can be run both with and without cylinder number specified.</p>
 
 </article></slide><slide class=""><hgroup><h2>server.R file</h2></hgroup><article  id="server.r-file">
 

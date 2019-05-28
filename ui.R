@@ -18,11 +18,12 @@ shinyUI(fluidPage(
         
         # Prediction and a plot
         mainPanel(
-            h4("Predicted value of this diamond is:"),
+            h4("Predicted mpg of a car with a given horsepower and number of cylinders would be:"),
             h3(textOutput("result")),
             h4(""),
             h4("Regression results:"),
-            plotOutput("distPlot")
+            plotOutput("distPlot"),
+            h5("Blue line is the linear regression for the specified conditions, with the smoothed conditional mean in gray.")
             
         )
     )
